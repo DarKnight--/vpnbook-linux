@@ -1,5 +1,7 @@
 import urllib2
 import sys
+import subprocess
+
 
 def build_opener_urllib(protocol="http", user=1):
 	with open("proxy.dat","r") as file:
@@ -17,10 +19,7 @@ def build_opener_urllib(protocol="http", user=1):
 	return urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
 
 if __name__=="__main__":
-	try:
-		from BeautifulSoup import BeautifulSoup
-	except:
-		
+	from BeautifulSoup import BeautifulSoup
 	url_opener = urllib2.build_opener()
 	index = sys.argv[1].find(":")
 	if sys.argv[2] == "proxy": 
