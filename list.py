@@ -1,4 +1,3 @@
-from BeautifulSoup import BeautifulSoup
 import urllib2
 import sys
 
@@ -18,6 +17,10 @@ def build_opener_urllib(protocol="http", user=1):
 	return urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
 
 if __name__=="__main__":
+	try:
+		from BeautifulSoup import BeautifulSoup
+	except:
+		
 	url_opener = urllib2.build_opener()
 	index = sys.argv[1].find(":")
 	if sys.argv[2] == "proxy": 

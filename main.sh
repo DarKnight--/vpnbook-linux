@@ -1,17 +1,6 @@
 #! /bin/bash
 # @author DarKnight
 
-
-#proxy setting remaining in wget
-#wget -q --tries=10 --timeout=20 --spider http://google.com
-#if [[ $? -eq 0 ]]; then
-#	echo "Online"
-#else
-#	echo "You are not connected to internet."
-#	echo "Restart the script when connected"
-#	exit 0
-#fi
-
 unset PASSWORD
 unset CHARCOUNT
 unset USERNAME
@@ -22,6 +11,7 @@ if [ -n "$proxy_ip" ] ; then
 	echo -n "Proxy server port:" 
 	read proxy_port
 	echo "$proxy_ip $proxy_port" >> proxy.dat
+	export http_proxy="http://${proxy_ip}:${proxy_port}"
 	echo -n "Enter username (if applicable):" 
 	read USERNAME
 	is_proxy=1
@@ -54,19 +44,30 @@ if [ -n "$proxy_ip" ] ; then
 		stty echo 
 		echo $USERNAME >> auth.dat
 		echo $PASSWORD >> auth.dat
+		export http_proxy="http://${USERNAME}:${PASSWORD}@${proxy_ip}:${proxy_port}"
 	fi
 fi
-echo 
+echo
 
-#bash download.sh
-#mkdir -p scripts
-#unzip -q "*.zip" -x "*udp*" -d "scripts/" >> /dev/null
-#rm -rf "*.zip"
+wget -q --tries=10 --timeout=20 --spider http://google.com
+if [[ $? -eq 0 ]]; then
+	echo "Online"
+else
+	echo "You are not connected to internet."
+	echo "Restart the script when connected"
+	exit 0
+fi 
+
+bash download.sh
+mkdir -p scripts
+unzip -q "*.zip" -x "*udp*" -d "scripts/" >> /dev/null
+rm -rf "*.zip"
 python2 list.py http://www.vpnbook.com proxy 1 >> /dev/null
 if [ ! -f "authv.dat" ]; then
 	echo "Password grabbing failed"
 	echo "Report error"
 	#rm -rf *
+	exit 0
 fi
 bash edit.sh
 rm -rf scripts/
