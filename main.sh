@@ -66,13 +66,15 @@ python2 list.py http://www.vpnbook.com proxy 1 >> /dev/null
 if [ ! -f "authv.dat" ]; then
 	echo "Password grabbing failed"
 	echo "Report error"
-	#rm -rf *
+	rm -rf *
 	exit 0
 fi
 bash edit.sh
 rm -rf scripts/
 mv *.dat .script/
 mv .script ~/.script
+rm -rf *
+
 
 
 
