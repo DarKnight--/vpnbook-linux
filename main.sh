@@ -62,7 +62,7 @@ bash download.sh
 mkdir -p scripts
 unzip -q "*.zip" -x "*udp*" -d "scripts/" >> /dev/null
 rm -rf "*.zip"
-python2 list.py http://www.vpnbook.com proxy 1 >> /dev/null
+python2 list.py http://www.vpnbook.com/freevpn proxy 1 >> /dev/null
 if [ ! -f "authv.dat" ]; then
 	echo "Password grabbing failed"
 	echo "Report error"
